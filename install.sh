@@ -22,7 +22,8 @@ get() { curl -fsSL --proto '=https' --tlsv1.2 --retry 2 "$@"; }
 
 # Pergunta s/N direto no terminal, já que no "curl | sh" a entrada padrão é o script.
 ask() {
-    { : </dev/tty; } 2>/dev/null || return 1
+    # Subshell: no sh POSIX, erro de redirecionamento em builtin especial (`:`) mata o script.
+    (true </dev/tty) 2>/dev/null || return 1
     printf '%s [s/N] ' "$1" >/dev/tty
     read -r ans </dev/tty || return 1
     case "$ans" in s | S | sim | Sim | y | Y | yes) return 0 ;; *) return 1 ;; esac
