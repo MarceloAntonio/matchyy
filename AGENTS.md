@@ -47,4 +47,4 @@ Todo bug corrigido ganha uma linha aqui e, quando der, um teste em `mod tests`.
 
 | Bug | Causa | Teste |
 |---|---|---|
-| `install.sh` morria sem terminal (`curl | sh` em CI) em vez de dizer "Nada foi alterado" | `: </dev/tty` falha num builtin especial e o sh POSIX encerra | `setsid sh install.sh </dev/null` com uma versão velha instalada deve sair 0 |
+| `install.sh` morria sem terminal (em CI ou script) em vez de dizer "Nada foi alterado" | `: </dev/tty` falha num builtin especial e o sh POSIX encerra | `setsid sh install.sh </dev/null` com uma versão velha instalada deve sair 0 |
