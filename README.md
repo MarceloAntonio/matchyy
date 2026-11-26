@@ -10,14 +10,49 @@ Mostra no terminal a música que está tocando: a capa do álbum renderizada com
 - **PipeWire ou PulseAudio** com `parec` (pacote `libpulse`), para o visualizador
 - `curl`, para baixar capas que vêm por URL
 - Um terminal com o **protocolo gráfico do kitty** (kitty, WezTerm, Ghostty, Konsole)
-- Rust 1.85 ou mais novo para compilar (edition 2024)
+- Rust 1.88 ou mais novo, só se for compilar
 
 ## Instalação
 
+### Com o script (recomendado)
+
 ```sh
-git clone https://github.com/MarceloAntonio/matchyy
-cd matchyy
-cargo install --path .
+curl -fsSL https://raw.githubusercontent.com/MarceloAntonio/matchyy/main/install.sh | sh
+```
+
+O script:
+
+- descobre a última release no GitHub
+- baixa o binário e o `SHA256SUMS` só por HTTPS e confere o hash antes de instalar
+- roda o binário baixado para ter certeza de que funciona na sua máquina
+- instala em `~/.local/bin` (ou em `MATCHYY_DIR`, se você definir) com troca atômica, sem deixar arquivo pela metade
+- se o matchyy já estiver instalado, avisa quando ele já está na última versão; se estiver desatualizado, **pergunta antes** de atualizar
+- avisa se a pasta não está no `PATH` ou se faltam `playerctl` ou `parec`
+
+Rodar o mesmo comando de novo serve para atualizar. Se preferir ler o script antes de rodar:
+
+```sh
+curl -fsSLO https://raw.githubusercontent.com/MarceloAntonio/matchyy/main/install.sh
+less install.sh
+sh install.sh
+```
+
+### Baixando o binário com curl
+
+O binário é estático (musl) e roda em qualquer Linux x86_64.
+
+```sh
+cd /tmp
+curl -fsSLO https://github.com/MarceloAntonio/matchyy/releases/latest/download/matchyy-x86_64-linux
+curl -fsSLO https://github.com/MarceloAntonio/matchyy/releases/latest/download/SHA256SUMS
+sha256sum -c SHA256SUMS          # tem que mostrar: matchyy-x86_64-linux: OK
+install -Dm755 matchyy-x86_64-linux ~/.local/bin/matchyy
+```
+
+### Compilando
+
+```sh
+cargo install --git https://github.com/MarceloAntonio/matchyy
 ```
 
 ## Uso

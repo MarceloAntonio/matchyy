@@ -26,6 +26,21 @@ cargo build --release
 
 Mudanças visuais precisam ser vistas de verdade: rode o binário num kitty com música tocando e confira o resultado. Teste passando não basta para provar que o desenho está certo.
 
+## Release
+
+O binário da release precisa ser **estático (musl)**. Compilado no Arch, ele exige um glibc recente demais para outras distros. Para publicar:
+
+```sh
+# 1. aumente `version` no Cargo.toml e faça o commit
+podman run --rm -v "$PWD":/src:Z -w /src docker.io/library/rust:alpine \
+  sh -c 'apk add -q --no-cache musl-dev && cargo build --release --locked --target-dir /src/target/alpine'
+mkdir -p dist && cp target/alpine/release/matchyy dist/matchyy-x86_64-linux
+(cd dist && sha256sum matchyy-x86_64-linux > SHA256SUMS)
+gh release create vX.Y.Z dist/matchyy-x86_64-linux dist/SHA256SUMS --title vX.Y.Z --notes "..."
+```
+
+O `install.sh` depende desses nomes exatos (`matchyy-x86_64-linux`, `SHA256SUMS`) e de `matchyy --version` imprimir `matchyy X.Y.Z`. Não os altere sem atualizar o script.
+
 ## Regressões
 
 Todo bug corrigido ganha uma linha aqui e, quando der, um teste em `mod tests`.

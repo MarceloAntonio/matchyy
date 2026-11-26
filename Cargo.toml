@@ -10,3 +10,7 @@ readme = "README.md"
 crossterm = "0.29.0"
 image = { version = "0.25.10", default-features = false, features = ["jpeg", "png"] }
 rustfft = "6.4.1"
+
+[profile.release]
+strip = true
+lto = true
