@@ -1,0 +1,35 @@
+# AGENTS.md
+
+Instruções para assistentes de IA (Claude Code, Codex e afins) que trabalham neste repositório.
+
+## O projeto
+
+`matchyy` é um CLI em Rust que mostra a música tocando: capa (protocolo gráfico do kitty), visualizador de áudio (FFT do monitor via `parec`) e barra de progresso. O README explica a arquitetura.
+
+## Regras
+
+- **Um arquivo só.** Todo o código fica em `src/main.rs`. Divida em módulos apenas se o arquivo passar de ~1000 linhas, e nunca por antecipação.
+- **Sem dependências novas** sem justificativa forte. As atuais são `crossterm`, `image` (só jpeg e png) e `rustfft`. Para o que dá para resolver com poucas linhas (base64, JSON, parsing de argumentos), escreva à mão.
+- **Use ferramentas externas, não reimplemente:** `playerctl` para MPRIS, `parec` para o áudio, `curl` para baixar capas.
+- **Opções novas vêm desligadas.** Sem a flag, o comportamento padrão não pode mudar. Toda opção nova entra em `Opts`, em `parse_args`, na constante `HELP`, na tabela do README e no teste `opcoes`.
+- **Nada de piscar.** Não limpe a tela a cada quadro: escreva tudo no buffer `f` e reescreva cada linha no lugar com `\x1b[K`. A imagem do kitty só é reenviada quando a capa muda ou a janela muda de tamanho.
+- **Português** em textos para o usuário, comentários e documentação, com acentuação correta. Identificadores do código ficam em inglês.
+
+## Antes de entregar
+
+```sh
+cargo fmt --check
+cargo clippy -- -D warnings
+cargo test
+cargo build --release
+```
+
+Mudanças visuais precisam ser vistas de verdade: rode o binário num kitty com música tocando e confira o resultado. Teste passando não basta para provar que o desenho está certo.
+
+## Regressões
+
+Todo bug corrigido ganha uma linha aqui e, quando der, um teste em `mod tests`.
+
+| Bug | Causa | Teste |
+|---|---|---|
+| — | — | — |

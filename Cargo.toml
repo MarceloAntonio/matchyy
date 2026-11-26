@@ -1,0 +1,12 @@
+[package]
+name = "matchyy"
+version = "0.1.0"
+edition = "2024"
+description = "Mostra a música tocando no terminal: capa, visualizador de áudio e progresso"
+license = "Apache-2.0"
+readme = "README.md"
+
+[dependencies]
+crossterm = "0.29.0"
+image = { version = "0.25.10", default-features = false, features = ["jpeg", "png"] }
+rustfft = "6.4.1"
